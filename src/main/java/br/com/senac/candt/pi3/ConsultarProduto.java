@@ -41,6 +41,8 @@ public class ConsultarProduto extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
+        setTitle("Consultar Produto");
+        setFont(new java.awt.Font("Tahoma", 2, 10)); // NOI18N
 
         jLabel1.setText("Pesquisar:");
 
