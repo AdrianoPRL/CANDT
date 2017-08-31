@@ -5,7 +5,7 @@
  */
 package br.com.senac.candt.pi3;
 
-import br.com.senac.candt.pi3t.Produto;
+
 import java.text.SimpleDateFormat;
 
 /**
@@ -13,18 +13,12 @@ import java.text.SimpleDateFormat;
  * @author cassia.bmoura
  */
 public class AtualizarProduto extends javax.swing.JInternalFrame {
-     private Produto prod=new Produto();
+     
    
     public AtualizarProduto() {
         initComponents();
-        inicializarDatas();
+        
     }
-  public void setProduto(Produto prod){
-       this.prod=prod;
-   }
-   public Produto getProduto(){
-       return prod;
-   }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -155,19 +149,7 @@ public class AtualizarProduto extends javax.swing.JInternalFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
-     private void inicializarDatas() {
-        
-               	String data = "dd/MM/yyyy";
-		String hora = "h:mm - a";
-		String data1, hora1;
-		java.util.Date agora = new java.util.Date();;
-		SimpleDateFormat formata = new SimpleDateFormat(data);
-		data1 = formata.format(agora);
-		formata = new SimpleDateFormat(hora);
-		hora1 = formata.format(agora);
-               Data.setValue(data1+" "+hora1);
-             
- }
+ 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFormattedTextField Data;
