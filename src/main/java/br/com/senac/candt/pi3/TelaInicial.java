@@ -11,7 +11,7 @@ import javax.swing.JInternalFrame;
 public class TelaInicial extends javax.swing.JFrame {
     CadastrarProduto cadastroProduto=null;
     ConsultarProduto consultaProduto=null;
-    ModificaProduto atualizaProduto=null;
+   
     public TelaInicial() {
         initComponents();
       
