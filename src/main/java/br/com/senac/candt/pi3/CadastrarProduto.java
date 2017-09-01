@@ -1,7 +1,10 @@
 package br.com.senac.candt.pi3;
 
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -10,10 +13,11 @@ import javax.swing.JOptionPane;
 
 
 public class CadastrarProduto extends javax.swing.JInternalFrame {
-
+   
     public CadastrarProduto() {
         initComponents();
-      
+      inicializarData();
+       
     }
 
     
@@ -32,10 +36,10 @@ public class CadastrarProduto extends javax.swing.JInternalFrame {
         CancelarButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         textDesc = new javax.swing.JTextArea();
-        jFValorVenda = new javax.swing.JFormattedTextField();
-        jFValCompra = new javax.swing.JFormattedTextField();
         jLabel4 = new javax.swing.JLabel();
         Data = new javax.swing.JFormattedTextField();
+        jFValCompra = new javax.swing.JFormattedTextField();
+        jFValorVenda = new javax.swing.JFormattedTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -79,9 +83,21 @@ public class CadastrarProduto extends javax.swing.JInternalFrame {
         jLabel4.setText("Data/Hora:");
 
         Data.setEditable(false);
-        Data.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DataActionPerformed(evt);
+
+        jFValCompra.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jFValCompraFocusLost(evt);
+            }
+        });
+        jFValCompra.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jFValCompraKeyTyped(evt);
+            }
+        });
+
+        jFValorVenda.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jFValorVendaFocusLost(evt);
             }
         });
 
@@ -110,16 +126,16 @@ public class CadastrarProduto extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(fieldNome, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
                             .addComponent(jFValCompra))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
                             .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(fieldCategoria)
-                            .addComponent(jFValorVenda, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                            .addComponent(Data))
+                            .addComponent(fieldCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
+                            .addComponent(Data, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jFValorVenda))
                         .addGap(16, 16, 16)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -129,7 +145,7 @@ public class CadastrarProduto extends javax.swing.JInternalFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel1)
@@ -141,13 +157,13 @@ public class CadastrarProduto extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jLabel6)
-                    .addComponent(jFValorVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFValCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jFValCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jFValorVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(Data, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -162,13 +178,11 @@ public class CadastrarProduto extends javax.swing.JInternalFrame {
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {CancelarButton, SalvarButton});
 
-        jFValCompra.getAccessibleContext().setAccessibleName("");
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void fieldNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldNomeActionPerformed
-        // TODO add your handling code here:
+      
     }//GEN-LAST:event_fieldNomeActionPerformed
 
     private void CancelarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarButtonActionPerformed
@@ -176,15 +190,75 @@ public class CadastrarProduto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_CancelarButtonActionPerformed
 
     private void SalvarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalvarButtonActionPerformed
-  
+          DAOProduto dao=new DAOProduto();
+        Produto prod= new Produto();
+       
+        prod.setDescricao(textDesc.getText());
+        prod.setCategorias(fieldCategoria.getText());
+        prod.setNome(fieldNome.getText());
+        
+        BigDecimal x=new BigDecimal(jFValCompra.getText());
+        BigDecimal y=new BigDecimal(jFValorVenda.getText());
+        prod.setValorCompra(x);
+        prod.setValorVenda(y);
+          Date data = null;
+        try {
+            data = (Date) Data.getValue();
+        } catch (Exception e) {
+           prod.setDtCadastro(data);
+        }
+        try {
+         
+                  dao.incluirComTransacao(prod);
+                  
+                 
+        } catch (Exception e) {
+          
+            JOptionPane.showMessageDialog(rootPane, e.getMessage(),
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        JOptionPane.showMessageDialog(rootPane, "Produto inserido",
+                "Cadastro efetuado", JOptionPane.INFORMATION_MESSAGE);
 
-
-
+       
+       fieldCategoria.setText("");
+        fieldNome.setText("");
+        jFValCompra.setText("");
+        jFValorVenda.setText("");
+        textDesc.setText("");
+         
     }//GEN-LAST:event_SalvarButtonActionPerformed
 
-    private void DataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DataActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DataActionPerformed
+    private void jFValCompraFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFValCompraFocusLost
+          String a=jFValCompra.getText();
+        String b=a.replace(",", ".").replace(" ", ".00");
+        jFValCompra.setValue(b);
+
+
+
+
+    }//GEN-LAST:event_jFValCompraFocusLost
+
+    private void jFValCompraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFValCompraKeyTyped
+    
+
+    }//GEN-LAST:event_jFValCompraKeyTyped
+
+    private void jFValorVendaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFValorVendaFocusLost
+       String a=jFValorVenda.getText();
+        String b=a.replace(",", ".").replace(" ", ".00");
+        
+        jFValorVenda.setValue(b);
+
+    }//GEN-LAST:event_jFValorVendaFocusLost
+  private void inicializarData(){
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        Date hoje = Calendar.getInstance().getTime();
+        String reportDate = df.format(hoje);
+        Data.setText(reportDate);
+        
+    }
   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
